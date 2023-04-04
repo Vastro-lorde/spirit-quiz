@@ -34,7 +34,6 @@ export const Quiz = () => {
             result.data.forEach(element => {
                 setQuestions((prev)=> [...prev,{...element,selectedAnswer:''}])
             });
-            controller.signal();
         }).catch(error=>{
             console.log(error);
         })

@@ -12,7 +12,7 @@ export const Clock = () => {
   }, []);
 
   return (
-    <div className='flex gap-2'>
+    <div className='flex gap-2 text-2xs md:text-base'>
       <p>Current Time:</p>
       <p>{time.toLocaleString()}</p>
     </div>

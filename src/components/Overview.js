@@ -1,8 +1,22 @@
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { GET_CATEGORIES } from "../services/links";
+import axios from "axios";
 
 export const Overview = () => {
-    let categories = []
-    categories = categories.concat(...Object.values(JSON.parse(localStorage.getItem('categories'))));
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        axios.get(GET_CATEGORIES).then(result=>{
+            Object.values(result.data).forEach(element => {
+                setCategories((prev)=> [...prev,...element])
+            });
+        }).catch(error=>{
+            console.log(error);
+        })
+        return () => controller.abort();
+    }, [])
 
     return (
         <div>
