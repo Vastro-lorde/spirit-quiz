@@ -11,6 +11,7 @@ import { push, ref } from 'firebase/database';
 import { firebaseDb } from '../services/firebase';
 
 export const Quiz = () => {
+    const user = getUser()
     const totalquestions = 20
     const [params] = useSearchParams();
     const [questions, setQuestions] = useState([]);
@@ -50,11 +51,6 @@ export const Quiz = () => {
     }
 
     const answerQuestion = (option) =>{
-        console.log(score);
-        console.log(option);
-        console.log(options);
-        console.log(questions[questionNumber]);
-        console.log(questions[questionNumber].correctAnswer === option);
         if (questions[questionNumber].correctAnswer === option) {
             setScore(score +(1/totalquestions * 100))
         }
@@ -82,10 +78,11 @@ export const Quiz = () => {
                 theme: "light",
                 });
             setFinishedTime( 300 - time )
-            push(ref(firebaseDb,'user/result'),{
+            push(ref(firebaseDb,'user/'+user.full_name.replace(' ','')+'/result'),{
                 user: getUser(),
                 finishedTime: 300 - time,
                 score,
+                category,
                 questions
             });
             setEndExam(true)
