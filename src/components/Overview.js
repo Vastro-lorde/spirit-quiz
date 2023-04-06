@@ -5,6 +5,7 @@ import axios from "axios";
 
 export const Overview = () => {
     const [categories, setCategories] = useState([]);
+    document.title = "Spirit Quiz"
 
     useEffect(() => {
         const controller = new AbortController();

@@ -29,6 +29,7 @@ export const Quiz = () => {
     const instructionStyle = ' text-slate-800 text-sm my-2'
 
     const category = params.get('category');
+    document.title= category+ " quiz"
     useEffect(() => {
         const controller = new AbortController();
         axios.get(GET_RANDOM_20QUESTIONS+category).then(result=>{

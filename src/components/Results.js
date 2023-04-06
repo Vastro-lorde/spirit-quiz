@@ -8,12 +8,13 @@ export const Results = () => {
     const [results, setResults] = useState([]);
     const resultItemStyle = ' w-48';
     const user= getUser();
+    document.title = user.full_name+ " result";
 useEffect(() => {
     let resultref = ref(firebaseDb ,"user/"+user.full_name.replace(' ','')+"/result");
         onValue(resultref, (snapshot)=>{
             setResults(Object.values(snapshot.val()));
         })
-}, [user])
+}, [user.full_name])
     return (
         <div>
             <h1 className=' font-Space-Grotesk font-bold text-xl mb-4'>Spirit Quiz Results</h1>
@@ -24,7 +25,7 @@ useEffect(() => {
                         <p className={resultItemStyle}>Finish</p>
                     </li>
                 {results?.length > 0? results.map((result, index)=> (
-                    <li className=' flex gap-2 p-4'>
+                    <li className=' flex gap-2 p-4' key={index}>
                         <p className={resultItemStyle}>{result.category}</p>
                         <p className={resultItemStyle}>{result.score}</p>
                         <p className={resultItemStyle}>{result.finishedTime}</p>
