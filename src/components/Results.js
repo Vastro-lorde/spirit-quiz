@@ -9,10 +9,9 @@ export const Results = () => {
     const resultItemStyle = ' w-48';
     const user= getUser();
 useEffect(() => {
-    let resultref = ref(firebaseDb ,"users/"+user.full_name.replace(' ',''));
+    let resultref = ref(firebaseDb ,"user/"+user.full_name.replace(' ','')+"/result");
         onValue(resultref, (snapshot)=>{
-            console.log(snapshot.val());
-            setResults(snapshot.val())
+            setResults(Object.values(snapshot.val()));
         })
 }, [user])
     return (
