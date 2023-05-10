@@ -1,17 +1,19 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Dashboard } from '../components/Dashboard';
-import { SignIn } from '../components/SignIn';
+import { SignIn } from '../components/authComponents/SignIn';
 import { ProtectedRoutes } from './protectedRoutes';
 import { Overview } from '../components/Overview';
 import { Results } from '../components/Results';
 import { Quiz } from '../components/Quiz';
+import { Register } from '../components/authComponents/Register';
 
 export const IndexRoutes = () => {
   return (
     <Router>
         <Routes>
             <Route path='/' element={<SignIn/>}/>
+            <Route path='/register' element={<Register/>}/>
             <Route path='/dashboard' element={<ProtectedRoutes/>} >
               <Route path='/dashboard' element={<Dashboard/>}>
                   <Route index element={<Overview/>}/>

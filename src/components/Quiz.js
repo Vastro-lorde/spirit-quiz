@@ -28,7 +28,7 @@ export const Quiz = () => {
     const [time, setTime] = useState(300);
     const instructionStyle = ' text-slate-800 text-sm my-2'
 
-    const category = params.get('category');
+    const category = params.get('categoryid');
     document.title= category+ " quiz"
     useEffect(() => {
         const controller = new AbortController();

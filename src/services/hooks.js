@@ -1,5 +1,6 @@
 import axios from "axios";
 import { GET_CATEGORIES } from "./links";
+import { config } from "./details";
 
 export const getUser = ()=>{
     const user = JSON.parse(sessionStorage.getItem('user'));
@@ -11,7 +12,7 @@ export const logOut = () =>{
 }
 
 export const getCategories = () => {
-    axios.get(GET_CATEGORIES).then(result =>{
+    axios.get(GET_CATEGORIES, config).then(result =>{
         localStorage.setItem('categories', JSON.stringify(result.data)) ;
     }).catch(error=>{
         localStorage.setItem('categories', JSON.stringify({})) ;
