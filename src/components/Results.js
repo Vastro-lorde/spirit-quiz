@@ -7,12 +7,15 @@ import { onValue, ref } from 'firebase/database';
 export const Results = () => {
     const [results, setResults] = useState([]);
     const resultItemStyle = ' w-48';
-    const user= getUser();
+    const user = getUser();
     document.title = user.full_name+ " result";
 useEffect(() => {
-    let resultref = ref(firebaseDb ,"user/"+user.full_name.replace(' ','')+"/result");
+    let resultref = ref(firebaseDb ,"user/"+user.full_name.split(' ').join('')+"/result");
         onValue(resultref, (snapshot)=>{
-            setResults(Object.values(snapshot.val()));
+            if (snapshot.val()) {
+                console.log(snapshot.val());
+                setResults(Object.values(snapshot.val()));
+            }
         })
 }, [user.full_name])
     return (
@@ -26,9 +29,9 @@ useEffect(() => {
                     </li>
                 {results?.length > 0? results.map((result, index)=> (
                     <li className=' flex gap-2 p-4' key={index}>
-                        <p className={resultItemStyle}>{result.category}</p>
+                        <p className={resultItemStyle}>{result.categoryName}</p>
                         <p className={resultItemStyle}>{result.score}</p>
-                        <p className={resultItemStyle}>{result.finishedTime}</p>
+                        <p className={resultItemStyle}>{result.finishedTime} seconds</p>
                     </li>
                 )): <p className='p-4'>no results</p>}
             </ol>

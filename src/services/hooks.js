@@ -3,19 +3,36 @@ import { GET_CATEGORIES } from "./links";
 import { config } from "./details";
 
 export const getUser = ()=>{
-    const user = JSON.parse(sessionStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('user'));
     return user;
 }
 
+export const checkToken = ()=>{
+    const exp = JSON.parse(sessionStorage.getItem('tokenExp'));
+    const token = JSON.parse(sessionStorage.getItem('token'));
+    if(token && exp){
+        const currentTime = Math.floor(Date.now() / 1000); // convert milliseconds to seconds
+        if (exp && exp < currentTime) {
+            // token has expired
+            sessionStorage.removeItem("user")
+            return false;
+        } else {
+            // token is still valid
+            return true;
+        }
+    }
+    return false;
+}
+
 export const logOut = () =>{
-    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('token');
 }
 
 export const getCategories = () => {
     axios.get(GET_CATEGORIES, config).then(result =>{
         localStorage.setItem('categories', JSON.stringify(result.data)) ;
     }).catch(error=>{
-        localStorage.setItem('categories', JSON.stringify({})) ;
+        localStorage.setItem('categories', JSON.stringify({}));
         console.log(error);
     })
 }
@@ -26,4 +43,4 @@ export const shuffleArray = (array)=>{
       [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
-  }
+}

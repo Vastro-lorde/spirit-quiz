@@ -19,7 +19,7 @@ export const UserProfile = () => {
                 {isOpen? <AiFillCaretUp/> : <AiFillCaretDown/>}
             </div>
             {isOpen &&
-                <div className=' absolute bg-white shadow-lg p-4 sm:w-2/12 w-6/12 flex flex-col md:text-base text-sm'>
+                <div className=' absolute bg-white shadow-lg p-4 md:w-72 w-52 flex flex-col md:text-base text-sm'>
                     <NavLink to='result' className='hover:bg-slate-300 cursor-pointer p-2'>View Results</NavLink>
                     <NavLink to='/' onClick={logOut} className='hover:bg-slate-300 cursor-pointer p-2'>Log Out</NavLink>
                 </div>

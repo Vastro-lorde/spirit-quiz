@@ -34,7 +34,8 @@ export const SignIn = () => {
                 setError(false)
                 sessionStorage.setItem('token',JSON.stringify(res.data.token));
                 sessionStorage.setItem('tokenExp',JSON.stringify(res.data.exp))
-                localStorage.setItem('user',JSON.stringify(res.data.data));
+                sessionStorage.setItem("userClaim",JSON.stringify(res.data.userClaim))
+                localStorage.setItem('user',JSON.stringify(res.data.user));
                 navigate('/dashboard');
             }).catch(err => {
                 setLoading(false);
@@ -69,11 +70,12 @@ export const SignIn = () => {
             password: formData.password
         }).then(res => {
             setLoading(false);
-            console.log(res.data);
+            console.log(res.data.token);
             setError(false)
             sessionStorage.setItem('token',JSON.stringify(res.data.token));
             sessionStorage.setItem('tokenExp',JSON.stringify(res.data.exp))
-            sessionStorage.setItem('user',JSON.stringify(res.data));
+            sessionStorage.setItem("userClaim",JSON.stringify(res.data.userClaim))
+            localStorage.setItem('user',JSON.stringify(res.data.user));
             navigate('dashboard');
         }).catch(err => {
             setLoading(false);

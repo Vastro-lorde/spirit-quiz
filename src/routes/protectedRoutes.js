@@ -1,10 +1,10 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { getUser } from '../services/hooks';
+import { checkToken } from '../services/hooks';
 
 
 export const ProtectedRoutes = () => {
-  return (getUser()?
+  return (checkToken()?
     <Outlet/>
     : <Navigate to="/"/>
   )
