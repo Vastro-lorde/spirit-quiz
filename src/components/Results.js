@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import { firebaseDb } from '../services/firebase';
+import { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
 import { getUser } from '../services/hooks';
-import { onValue, ref } from 'firebase/database';
+import { GET_RESULTS } from '../services/links';
+import { config } from '../services/details';
 
 
 export const Results = () => {
@@ -9,15 +10,31 @@ export const Results = () => {
     const resultItemStyle = ' w-48';
     const user = getUser();
     document.title = user.full_name+ " result";
-useEffect(() => {
-    let resultref = ref(firebaseDb ,"user/"+user.full_name.split(' ').join('')+"/result");
-        onValue(resultref, (snapshot)=>{
-            if (snapshot.val()) {
-                console.log(snapshot.val());
-                setResults(Object.values(snapshot.val()));
+
+        const fetchData = useCallback(async (signal) => {
+            try {
+                console.log(config);
+            const result = await axios.get(GET_RESULTS+user.id, {signal,...config()});
+            console.log(result.data);
+            setResults(() => [...result.data]);
+            } catch (error) {
+            if (!signal.aborted) {
+                console.log(error);
             }
-        })
-}, [user.full_name])
+            }
+        }, [user.id]);
+
+        useEffect(() => {
+            const controller = new AbortController();
+            const signal = controller.signal
+
+            try {
+                fetchData(signal);
+            } catch (error) {
+                console.log(error);
+            }
+            return () => controller.abort(signal.reason);
+        }, [fetchData])
     return (
         <div>
             <h1 className=' font-Space-Grotesk font-bold text-xl mb-4'>Spirit Quiz Results</h1>
@@ -25,13 +42,15 @@ useEffect(() => {
                     <li className=' flex gap-2 bg-amber-200 p-4'>
                         <p className={resultItemStyle}>Category</p>
                         <p className={resultItemStyle}>Score</p>
-                        <p className={resultItemStyle}>Finish</p>
+                        <p className={resultItemStyle}>Duration</p>
+                        <p className={resultItemStyle}>TimeTaken</p>
                     </li>
                 {results?.length > 0? results.map((result, index)=> (
                     <li className=' flex gap-2 p-4' key={index}>
-                        <p className={resultItemStyle}>{result.categoryName}</p>
-                        <p className={resultItemStyle}>{result.score}</p>
-                        <p className={resultItemStyle}>{result.finishedTime} seconds</p>
+                        <p className={resultItemStyle}>{result.CategoryName}</p>
+                        <p className={resultItemStyle}>{result.Score}</p>
+                        <p className={resultItemStyle}>{result.Duration}</p>
+                        <p className={resultItemStyle}>{new Date(result.CreatedAt).toLocaleDateString()}</p>
                     </li>
                 )): <p className='p-4'>no results</p>}
             </ol>

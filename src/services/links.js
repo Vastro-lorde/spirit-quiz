@@ -1,5 +1,5 @@
-//http://localhost:5660
-export const BASE_URL = "https://spirit-quiz-api.onrender.com";
+//https://spirit-quiz-api.onrender.com
+export const BASE_URL = "http://localhost:5660";
 
 
 //quiz routes
@@ -33,3 +33,13 @@ export const DELETE_IMAGE = `${BASE_URL}/image/delete`;
 export const GET_RESULTS = `${BASE_URL}/result/user/`;
 // eslint-disable-next-line
 export const CREATE_RESULT = `${BASE_URL}/result/create`;
+
+//user routes
+// eslint-disable-next-line
+export const UPDATE_USER = `${BASE_URL}/user/update`;
+// eslint-disable-next-line
+export const DELETE_USER = `${BASE_URL}/user/delete`;
+// eslint-disable-next-line
+export const GET_USER = `${BASE_URL}/user/get`;
+// eslint-disable-next-line
+export const GET_USERS = `${BASE_URL}/user/users`;

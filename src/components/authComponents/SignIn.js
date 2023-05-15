@@ -122,9 +122,11 @@ export const SignIn = () => {
                 <p className=' text-2xs md:text-sm mb-4 hover:underline text-amber-700 cursor-pointer'>don't have an account? <Link to={"register"}>Sign Up</Link></p>
                 <input className="border border-yellow-600 w-2/4 mx-auto mb-2 cursor-pointer p-2 font-Space-Grotesk font-semibold rounded-lg hover:bg-yellow-200" type="submit" value={"Sign In"}/>
                 <p className=' text-2xs md:text-sm mb-4 mx-auto hover:underline text-red-700 cursor-pointer'>{error}</p>
+                <Link to={"forgot-password"}><p className=' text-2xs md:text-sm mb-4 hover:underline text-amber-700 cursor-pointer'>Forgot Password?</p></Link>
             </form>
                 <button type="button" className=' border border-yellow-600 flex items-center justify-center gap-2 text-center mx-auto w-2/4 cursor-pointer p-2 font-Space-Grotesk font-semibold rounded-lg hover:bg-yellow-200' onClick={googleSignin}><p>Sign In With Google</p> <FcGoogle size={20}/> </button>
             <ToastContainer/>
+            
         </div>
     )
 }

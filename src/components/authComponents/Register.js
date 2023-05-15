@@ -124,7 +124,7 @@ export const Register = () => {
                         {visible? <AiFillEyeInvisible /> : <AiFillEye />}
                     </div>
                 </div>
-                <p className=' text-sm hover:underline text-amber-700 cursor-pointer'>don't have an account? <Link to={"register"}>Sign Up</Link></p>
+                <p className=' text-sm hover:underline text-amber-700 cursor-pointer'>Already have an account? <Link to={"/"}>Sign In</Link></p>
                 <input className="border border-yellow-600 w-2/4 mx-auto mb-2 cursor-pointer p-2 font-Space-Grotesk font-semibold rounded-lg hover:bg-yellow-200" type="submit" name="" value={"Register"}/>
             </form>
                 <button type="button" className=' border border-yellow-600 flex items-center justify-center gap-2 text-center mx-auto w-2/4 cursor-pointer p-2 font-Space-Grotesk font-semibold rounded-lg hover:bg-yellow-200' onClick={googleSignin}><p>Sign Up With Google</p> <FcGoogle size={20}/> </button>

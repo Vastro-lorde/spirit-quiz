@@ -4,7 +4,7 @@ import { config } from "./details";
 
 export const getUser = ()=>{
     const user = JSON.parse(localStorage.getItem('user'));
-    return user;
+    return user? user : undefined;
 }
 
 export const checkToken = ()=>{
@@ -43,4 +43,9 @@ export const shuffleArray = (array)=>{
       [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
+}
+
+export const getCloudinaryId = (folderDepth, url) =>{
+    const extension = url.split('.').pop();
+    return url.split('/').slice(-parseInt(folderDepth)).join('/').replace(`.${extension}`,'')
 }
