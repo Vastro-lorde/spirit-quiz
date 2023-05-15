@@ -1,5 +1,5 @@
-//https://spirit-quiz-api.onrender.com
-export const BASE_URL = "http://localhost:5660";
+//http://localhost:5660
+export const BASE_URL = "https://spirit-quiz-api.onrender.com";
 
 
 //quiz routes
