@@ -49,7 +49,7 @@ export const Results = () => {
                     <li className=' flex gap-2 p-4' key={index}>
                         <p className={resultItemStyle}>{result.CategoryName}</p>
                         <p className={resultItemStyle}>{result.Score}</p>
-                        <p className={resultItemStyle}>{result.Duration}</p>
+                        <p className={resultItemStyle}>{result.Duration}s</p>
                         <p className={resultItemStyle}>{new Date(result.CreatedAt).toLocaleDateString()}</p>
                     </li>
                 )): <p className='p-4'>no results</p>}

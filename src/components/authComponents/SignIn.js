@@ -30,7 +30,6 @@ export const SignIn = () => {
                 password: result.user.uid
             }).then(res => {
                 setLoading(false);
-                console.log(res.data);
                 setError(false)
                 sessionStorage.setItem('token',JSON.stringify(res.data.token));
                 sessionStorage.setItem('tokenExp',JSON.stringify(res.data.exp))
@@ -70,7 +69,6 @@ export const SignIn = () => {
             password: formData.password
         }).then(res => {
             setLoading(false);
-            console.log(res.data.token);
             setError(false)
             sessionStorage.setItem('token',JSON.stringify(res.data.token));
             sessionStorage.setItem('tokenExp',JSON.stringify(res.data.exp))

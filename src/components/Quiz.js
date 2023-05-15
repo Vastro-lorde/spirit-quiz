@@ -63,17 +63,19 @@ export const Quiz = () => {
         return controller.abort(signal.reason)
      }, []);
 
-    const createResult = useCallback(async ( userId, categoryId, score) => {
+    const createResult = useCallback(async ( userId, categoryId, score, finishedTime) => {
         const controller = new AbortController();
         const signal = controller.signal
         try {
             console.log(config());
-           const result = await axios.post(CREATE_RESULT,{signal,...config()},{
-            user_id: userId,
-            category_id: categoryId,
-            score: score
-           });
-           console.log(result.data);
+            const resultToken = {signal,...config()}
+            const result = await axios.post(CREATE_RESULT,{
+                user_id: userId,
+                category_id: categoryId,
+                score: `${score}`,
+                duration: `${finishedTime}`
+            }, resultToken);
+            console.log(result.data);
         } catch (error) {
            if (!signal.aborted) {
             console.log(error);
@@ -129,7 +131,7 @@ export const Quiz = () => {
                 createdAt: new Date().toISOString()
             }
             push(ref(firebaseDb,'user/'+user.full_name.split(' ').join('')+'/result'),newResult);
-            createResult(newResult.user.id, categoryId, newResult.score)
+            createResult(newResult.user.id, categoryId, newResult.score, finishedTime)
             setEndExam(true)
         }else{
             if (selectedAnswer) {
