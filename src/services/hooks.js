@@ -7,6 +7,11 @@ export const getUser = ()=>{
     return user? user : undefined;
 }
 
+export const checkAdminClaim = ()=>{
+    const userClaim = JSON.parse(sessionStorage.getItem('userClaim'));
+    return userClaim?.role === "ADMIN";
+}
+
 export const checkToken = ()=>{
     const exp = JSON.parse(sessionStorage.getItem('tokenExp'));
     const token = JSON.parse(sessionStorage.getItem('token'));

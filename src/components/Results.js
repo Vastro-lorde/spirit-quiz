@@ -45,14 +45,17 @@ export const Results = () => {
                         <p className={resultItemStyle}>Duration</p>
                         <p className={resultItemStyle}>TimeTaken</p>
                     </li>
-                {results?.length > 0? results.map((result, index)=> (
-                    <li className=' flex gap-2 p-4' key={index}>
-                        <p className={resultItemStyle}>{result.CategoryName}</p>
-                        <p className={resultItemStyle}>{result.Score}</p>
-                        <p className={resultItemStyle}>{result.Duration}s</p>
-                        <p className={resultItemStyle}>{new Date(result.CreatedAt).toLocaleDateString()}</p>
-                    </li>
-                )): <p className='p-4'>no results</p>}
+                    <div className=' overflow-y-auto h-80'>
+                        {results?.length > 0? results.map((result, index)=> (
+                            <li className=' flex gap-2 p-4' key={index}>
+                                <p className={resultItemStyle}>{result.CategoryName}</p>
+                                <p className={resultItemStyle}>{result.Score}</p>
+                                <p className={resultItemStyle}>{result.Duration}s</p>
+                                <p className={resultItemStyle}>{new Date(result.CreatedAt).toLocaleDateString()}</p>
+                            </li>
+                        )): <p className='p-4'>no results</p>}
+                    </div>
+                
             </ol>
         </div>
     )

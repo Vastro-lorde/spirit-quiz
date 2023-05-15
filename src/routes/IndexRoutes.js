@@ -9,6 +9,7 @@ import { Register } from '../components/authComponents/Register';
 import { ProfilePage } from '../components/ProfilePage';
 import { RequestResetPassword } from '../components/authComponents/RequestResetPassword';
 import { ResetPassword } from '../components/authComponents/ResetPassword';
+import { VerifyEmail } from '../components/authComponents/VerifyEmail';
 const Dashboard = lazy(() => import('../components/Dashboard'));
 const NotFound = lazy(()=> import('../components/NotFound'))
 
@@ -18,6 +19,7 @@ export const IndexRoutes = () => {
         <Routes>
             <Route path='/' element={<SignIn/>}/>
             <Route path='/register' element={<Register/>}/>
+            <Route path='/verify-email' element={<VerifyEmail/>}/>
             <Route path='/reset-password' element={<ResetPassword/>}/>
             <Route path='/forgot-password' element={<RequestResetPassword/>}/>
             <Route path='*' element={<NotFound/>}/>

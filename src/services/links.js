@@ -1,5 +1,5 @@
-//http://localhost:5660
-export const BASE_URL = "https://spirit-quiz-api.onrender.com";
+//
+export const BASE_URL = process.env.NODE_ENV === "development"? "http://localhost:5660": "https://spirit-quiz-api.onrender.com";
 
 
 //quiz routes

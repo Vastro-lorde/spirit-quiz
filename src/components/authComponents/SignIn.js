@@ -74,6 +74,8 @@ export const SignIn = () => {
             sessionStorage.setItem('tokenExp',JSON.stringify(res.data.exp))
             sessionStorage.setItem("userClaim",JSON.stringify(res.data.userClaim))
             localStorage.setItem('user',JSON.stringify(res.data.user));
+            const userClaimRes = res.data.userClaim;
+            userClaimRes === "ADMIN"? navigate('uzumaki'): navigate('dashboard');
             navigate('dashboard');
         }).catch(err => {
             setLoading(false);
@@ -117,7 +119,7 @@ export const SignIn = () => {
                         {visible? <AiFillEyeInvisible /> : <AiFillEye />}
                     </div>
                 </div>
-                <p className=' text-2xs md:text-sm mb-4 hover:underline text-amber-700 cursor-pointer'>don't have an account? <Link to={"register"}>Sign Up</Link></p>
+                <Link to={"register"}><p className=' text-2xs md:text-sm mb-4 hover:underline text-amber-700'>don't have an account? Sign Up</p></Link>
                 <input className="border border-yellow-600 w-2/4 mx-auto mb-2 cursor-pointer p-2 font-Space-Grotesk font-semibold rounded-lg hover:bg-yellow-200" type="submit" value={"Sign In"}/>
                 <p className=' text-2xs md:text-sm mb-4 mx-auto hover:underline text-red-700 cursor-pointer'>{error}</p>
                 <Link to={"forgot-password"}><p className=' text-2xs md:text-sm mb-4 hover:underline text-amber-700 cursor-pointer'>Forgot Password?</p></Link>

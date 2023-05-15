@@ -159,8 +159,7 @@ export const Quiz = () => {
             }
           }, 1000);
         if (document.visibilityState ==='hidden' && !endExam && started) {
-            setError('changing tab or window attracts a penalty of -2 marks')
-            setScore(score-2);
+            setError('changing tab or window is not allowed')
         }
         if (time <= 0 || endExam) {
             setEndExam(true)
