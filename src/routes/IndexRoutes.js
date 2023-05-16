@@ -10,6 +10,9 @@ import { ProfilePage } from '../components/ProfilePage';
 import { RequestResetPassword } from '../components/authComponents/RequestResetPassword';
 import { ResetPassword } from '../components/authComponents/ResetPassword';
 import { VerifyEmail } from '../components/authComponents/VerifyEmail';
+import { AdminRoutes } from './AdminRoutes';
+import Users from '../components/AdminComponents/Users';
+import Settings from '../components/AdminComponents/Settings';
 const Dashboard = lazy(() => import('../components/Dashboard'));
 const NotFound = lazy(()=> import('../components/NotFound'))
 
@@ -29,6 +32,17 @@ export const IndexRoutes = () => {
                   <Route path='result' element={<Results/>}/>
                   <Route path='quiz' element={<Quiz/>}/>
                   <Route path='profile' element={<ProfilePage/>}/>
+                  <Route path='*' element={<NotFound/>}/>
+              </Route>
+            </Route>
+            <Route path='/uzumaki' element={<AdminRoutes/>} >
+              <Route path='/uzumaki' element={<Dashboard/>}>
+                  <Route index element={<Overview/>}/>
+                  <Route path='result' element={<Results/>}/>
+                  <Route path='quiz' element={<Quiz/>}/>
+                  <Route path='profile' element={<ProfilePage/>}/>
+                  <Route path='users' element={<Users/>}/>
+                  <Route path='settings' element={<Settings/>}/>
                   <Route path='*' element={<NotFound/>}/>
               </Route>
             </Route>

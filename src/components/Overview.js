@@ -10,7 +10,6 @@ export const Overview = () => {
 
     const fetchData = useCallback(async (signal) => {
         try {
-            console.log(config);
            const result = await axios.get(GET_CATEGORIES, {signal,...config()});
            setCategories(() => [...result.data]);
         } catch (error) {

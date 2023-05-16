@@ -11,7 +11,7 @@ export const UserProfile = () => {
         if (isOpen) {
             setTimeout(()=>{
                 setIsOpen(false);
-            }, 2000)
+            }, 5000)
         }
     }, [isOpen])
     return (
@@ -30,6 +30,11 @@ export const UserProfile = () => {
                 <div className=' absolute bg-white shadow-lg p-4 md:w-72 w-52 flex flex-col md:text-base text-sm'>
                     <NavLink to='profile' className='hover:bg-slate-300 cursor-pointer p-2'>Profile</NavLink>
                     <NavLink to='result' className='hover:bg-slate-300 cursor-pointer p-2'>View Results</NavLink>
+                    { user.role === "ADMIN" && 
+                    <>
+                        <NavLink to='settings' className='hover:bg-slate-300 cursor-pointer p-2'>Settings</NavLink>
+                        <NavLink to='users' className='hover:bg-slate-300 cursor-pointer p-2'>Users</NavLink>
+                    </>}
                     <NavLink to='/' onClick={logOut} className='hover:bg-slate-300 cursor-pointer p-2'>Log Out</NavLink>
                 </div>
             }

@@ -13,7 +13,6 @@ export const Results = () => {
 
         const fetchData = useCallback(async (signal) => {
             try {
-                console.log(config);
             const result = await axios.get(GET_RESULTS+user.id, {signal,...config()});
             console.log(result.data);
             setResults(() => [...result.data]);

@@ -20,8 +20,6 @@ export const Register = () => {
         email: '',
         password: ''
     });
-   
-    console.log(process.env.NODE_ENV);
 
     const googleSignin = () =>{
         setLoading(true);
@@ -41,11 +39,11 @@ export const Register = () => {
                     getCategories();
                 }
                 setLoading(false)
-                navigate('dashboard');;
+                navigate('/dashboard');;
             }).catch(error => {
-                console.log(error.response.data.error);
+                console.log(error.message);
                 setLoading(false)
-                toast(error.response.data.error, {
+                toast(error.response.data.error ?? error.message , {
                     position: "top-right",
                     autoClose: 5000,
                     hideProgressBar: false,

@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { getCloudinaryId, getUser } from '../services/hooks';
 import { config } from '../services/details';
 import axios from 'axios';
-import profile_image from '../assets/profile_image.png'
+import profile_image from '../assets/profile_image.png';
+import { Bars } from 'react-loader-spinner';
 import { UPDATE_USER, UPLOAD_IMAGE } from '../services/links';
 
 export const ProfilePage = () => {
@@ -10,6 +11,7 @@ export const ProfilePage = () => {
     const [error, setError] = useState('');
     const [editMode, setEditMode] = useState(false)
     const [file, setFile] = useState({});
+    const [loading, setLoading] = useState(false);
     const [name, setName] = useState(user?.full_name? user.full_name :"")
     const [image_url, setImageurl] = useState(user?.image_url? user.image_url :"")
     const [preview, setPreview] = useState();
@@ -44,6 +46,7 @@ export const ProfilePage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true)
         console.log(file);
         var newImageUrl = "";
             console.log(config());
@@ -66,14 +69,23 @@ export const ProfilePage = () => {
                     image_url: newImageUrl !== ""? newImageUrl : image_url,
                 },{...config()}).then(result => {
                     console.log(result.data.data);
+                    setLoading(false)
                     localStorage.setItem("user",JSON.stringify(result.data.data))
+                }).catch(error => {
+                    console.log(error);
+                    setLoading(false)
+                    setError(error.response.data.error)
                 });
             }else{
                 await axios.patch(UPDATE_USER,{
                     name
                 },{...config()}).then(result => {
                     console.log(result.data.data);
+                    setLoading(false)
                     localStorage.setItem("user",JSON.stringify(result.data.data))
+                }).catch(error => {
+                    setLoading(false)
+                    console.log(error);
                 });
             }
 
@@ -115,14 +127,29 @@ export const ProfilePage = () => {
                     {editMode?
                         <input type='text' disabled={!editMode} onChange={(e)=> {setName(e.currentTarget.value)}}  className=' disabled:bg-transparent bg-slate-300 md:text-base text-sm font-Space-Grotesk font-bold' value={name} />
                         :
-                        <p className=' md:text-base text-sm font-Space-Grotesk font-bold'>{user.full_name}</p>
+                        <p className=' md:text-base text-sm font-Space-Grotesk font-bold'>{name}</p>
                     }
                     <p className=' md:text-sm text-2xs'>{user.email}</p>
                 </div>
                 <p className='text-2xs'>Created: {new Date(user?.created_at).toDateString()}</p>
                 <div className='flex gap-4 mx-auto w-1/2 justify-center'>
-                    <button type='button' className='text-sm font-Space-Grotesk font-bold bg-gray-500 py-2 px-4 rounded-md hover:bg-gray-600 hover:text-white transition-all text-gray-200' onClick={() => setEditMode(!editMode)}>Edit</button>
-                    <button type='submit' className='text-sm font-Space-Grotesk font-bold bg-gray-500 py-2 px-4 rounded-md disabled:bg-slate-300 hover:bg-gray-600 hover:text-white transition-all text-gray-200' disabled={editMode}>Submit</button>
+                    <button type='button' className='text-sm font-Space-Grotesk font-bold bg-gray-500 py-2 px-4 rounded-md hover:bg-gray-600 hover:text-white transition-all text-gray-200' onClick={() => setEditMode(!editMode)}>{editMode? "Save" : "Edit"}</button>
+                    <button type='submit' className='text-sm font-Space-Grotesk font-bold bg-gray-500 py-2 px-4 rounded-md disabled:bg-slate-300 hover:bg-gray-600 hover:text-white transition-all text-gray-200' disabled={editMode}>
+                    {loading?
+                    <div className=' mx-auto'>
+                        <Bars
+                            height="20"
+                            width="50"
+                            color="#FFBF00"
+                            ariaLabel="bars-loading"
+                            wrapperStyle={{}}
+                            wrapperClassName=" mx-auto"
+                            visible={true}
+                            />
+                        </div>:
+                        "Submit"
+                    }
+                        </button>
                 </div>
             </form>
         </div>

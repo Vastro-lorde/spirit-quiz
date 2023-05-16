@@ -35,7 +35,8 @@ export const SignIn = () => {
                 sessionStorage.setItem('tokenExp',JSON.stringify(res.data.exp))
                 sessionStorage.setItem("userClaim",JSON.stringify(res.data.userClaim))
                 localStorage.setItem('user',JSON.stringify(res.data.user));
-                navigate('/dashboard');
+                const userClaimRes = res.data.userClaim;
+                    userClaimRes.role === "ADMIN"? navigate('uzumaki'): navigate('dashboard');
             }).catch(err => {
                 setLoading(false);
                 setError(err.response.data.error);
@@ -75,8 +76,7 @@ export const SignIn = () => {
             sessionStorage.setItem("userClaim",JSON.stringify(res.data.userClaim))
             localStorage.setItem('user',JSON.stringify(res.data.user));
             const userClaimRes = res.data.userClaim;
-            userClaimRes === "ADMIN"? navigate('uzumaki'): navigate('dashboard');
-            navigate('dashboard');
+            userClaimRes.role === "ADMIN"? navigate('uzumaki'): navigate('dashboard');
         }).catch(err => {
             setLoading(false);
             setError(err.response.data.error);
