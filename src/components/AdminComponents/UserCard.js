@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import profile_image from '../../assets/profile_image.png'
 import { AiOutlineDelete } from 'react-icons/ai'
+import { DELETE_USER } from '../../services/links';
+import axios from 'axios';
+import { config } from '../../services/details';
 
 export const UserCard = (props) => {
     const { full_name, email, id, image_url, role, created_at, updated_at, verified } = props.user
+
+    const deleteUser = useCallback(async (id) => {
+        try {
+          const result = await axios.delete(DELETE_USER, { data: { id }, ...config() });
+          console.log(result.data);
+          // Handle the response or perform additional actions
+        } catch (error) {
+          console.log(error);
+          // Handle the error
+        }
+      }, []);
     return (
         <div className=' flex gap-2 items-center py-2 px-4 shadow-md hover:shadow w-96'>
             <div className=' flex flex-col items-center w-1/5'>
@@ -20,7 +34,8 @@ export const UserCard = (props) => {
                 <p className=' text-2xs'>updated: {new Date(updated_at).toDateString()}</p>
 
             </div>
-            <div>
+            {/* delete icon */}
+            <div onClick={()=> deleteUser(id)}>
                 <AiOutlineDelete className='text-3xl text-gray-400 hover:text-red-400 cursor-pointer' />
             </div>
             
