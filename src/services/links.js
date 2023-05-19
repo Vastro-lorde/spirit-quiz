@@ -6,6 +6,12 @@ export const BASE_URL = process.env.NODE_ENV === "development"? "http://localhos
 // eslint-disable-next-line
 export const GET_RANDOM_QUESTIONS = `${BASE_URL}/quiz/questions/`;
 // eslint-disable-next-line
+export const GET_ALL_CATEGORY_QUESTIONS = `${BASE_URL}/quiz/questions/all/`;
+// eslint-disable-next-line
+export const GET_ALL_QUESTIONS = `${BASE_URL}/quiz/questions/all`;
+// eslint-disable-next-line
+export const SEARCH_QUESTIONS = `${BASE_URL}/quiz/questions/search`;
+// eslint-disable-next-line
 export const GET_CATEGORIES = `${BASE_URL}/quiz/categories`;
 // eslint-disable-next-line
 export const GET_OPTIONS = `${BASE_URL}/quiz/options/`;

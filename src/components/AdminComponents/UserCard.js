@@ -19,7 +19,7 @@ export const UserCard = (props) => {
         }
       }, []);
     return (
-        <div className=' flex gap-2 items-center py-2 px-4 shadow-md hover:shadow w-96'>
+        <div className=' flex gap-2 items-center py-2 px-4 shadow-md hover:shadow w-96 rounded-lg mb-4 bg-slate-200'>
             <div className=' flex flex-col items-center w-1/5'>
                 <div className=' w-12 rounded-full overflow-hidden'>
                     <img src={image_url === ""? profile_image: image_url} alt={full_name}/>
