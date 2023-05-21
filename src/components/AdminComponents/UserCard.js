@@ -14,8 +14,8 @@ export const UserCard = (props) => {
           console.log(result.data);
           // Handle the response or perform additional actions
         } catch (error) {
+            // Handle the error
           console.log(error);
-          // Handle the error
         }
       }, []);
     return (

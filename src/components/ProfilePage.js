@@ -4,7 +4,7 @@ import { config } from '../services/details';
 import axios from 'axios';
 import profile_image from '../assets/profile_image.png';
 import { Bars } from 'react-loader-spinner';
-import { UPDATE_USER, UPLOAD_IMAGE } from '../services/links';
+import { DELETE_IMAGE, UPDATE_USER, UPLOAD_IMAGE } from '../services/links';
 
 export const ProfilePage = () => {
     const user = getUser();
@@ -50,6 +50,17 @@ export const ProfilePage = () => {
         console.log(file);
         var newImageUrl = "";
             console.log(config());
+            if (image_url !== "" && image_url.includes("cloudinary")) {
+                try {
+                    let public_url = getCloudinaryId(2, image_url)
+                    const result = await axios.delete(DELETE_IMAGE, { data: { public_url }, ...config() });
+                    console.log(result.data);
+                    // Handle the response or perform additional actions
+                  } catch (error) {
+                    console.log(error);
+                    // Handle the error
+                  }
+            }
             if (file.name) {
                 const formData = new FormData();
                 formData.append('file', file);

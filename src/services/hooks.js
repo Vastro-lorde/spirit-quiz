@@ -52,5 +52,5 @@ export const shuffleArray = (array)=>{
 
 export const getCloudinaryId = (folderDepth, url) =>{
     const extension = url.split('.').pop();
-    return url.split('/').slice(-parseInt(folderDepth)).join('/').replace(`.${extension}`,'')
+    return url.split('/').slice(-parseInt(folderDepth ??= 2)).join('/').replace(`.${extension}`,'')
 }
