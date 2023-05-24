@@ -46,6 +46,6 @@ export const UPDATE_USER = `${BASE_URL}/user/update`;
 // eslint-disable-next-line
 export const DELETE_USER = `${BASE_URL}/user/delete`;
 // eslint-disable-next-line
-export const GET_USER = `${BASE_URL}/user/get`;
+export const GET_USER = `${BASE_URL}/user/get/`;
 // eslint-disable-next-line
 export const GET_USERS = `${BASE_URL}/user/users`;

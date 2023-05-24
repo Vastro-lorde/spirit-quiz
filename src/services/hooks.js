@@ -3,7 +3,8 @@ import { GET_CATEGORIES } from "./links";
 import { config } from "./details";
 
 export const getUser = ()=>{
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    
     return user? user : undefined;
 }
 
@@ -14,8 +15,9 @@ export const checkAdminClaim = ()=>{
 
 export const checkToken = ()=>{
     const exp = JSON.parse(sessionStorage.getItem('tokenExp'));
+    const user = JSON.parse(sessionStorage.getItem("user"));
     const token = JSON.parse(sessionStorage.getItem('token'));
-    if(token && exp){
+    if(token && exp && user){
         const currentTime = Math.floor(Date.now() / 1000); // convert milliseconds to seconds
         if (exp && exp < currentTime) {
             // token has expired
@@ -30,6 +32,7 @@ export const checkToken = ()=>{
 }
 
 export const logOut = () =>{
+    sessionStorage.removeItem('user')
     sessionStorage.removeItem('token');
 }
 

@@ -50,7 +50,7 @@ export const Results = () => {
                                 <p className={resultItemStyle}>{result.CategoryName}</p>
                                 <p className={resultItemStyle}>{result.Score}</p>
                                 <p className={resultItemStyle}>{result.Duration}s</p>
-                                <p className={resultItemStyle}>{new Date(result.CreatedAt).toLocaleDateString()}</p>
+                                <p className={resultItemStyle}>{new Date(result.CreatedAt).toLocaleString()}</p>
                             </li>
                         )): <p className='p-4'>no results</p>}
                     </div>

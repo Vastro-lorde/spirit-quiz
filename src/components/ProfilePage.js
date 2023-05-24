@@ -1,22 +1,52 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { getCloudinaryId, getUser } from '../services/hooks';
 import { config } from '../services/details';
 import axios from 'axios';
 import profile_image from '../assets/profile_image.png';
 import { Bars } from 'react-loader-spinner';
-import { DELETE_IMAGE, UPDATE_USER, UPLOAD_IMAGE } from '../services/links';
+import { GET_USER, UPDATE_USER, UPLOAD_IMAGE } from '../services/links';
 
 export const ProfilePage = () => {
-    const user = getUser();
     const [error, setError] = useState('');
     const [editMode, setEditMode] = useState(false)
     const [file, setFile] = useState({});
+    const [user, setUser] = useState({});
     const [loading, setLoading] = useState(false);
-    const [name, setName] = useState(user?.full_name? user.full_name :"")
-    const [image_url, setImageurl] = useState(user?.image_url? user.image_url :"")
+    const [name, setName] = useState("")
+    const [image_url, setImageurl] = useState("")
     const [preview, setPreview] = useState();
 
     const [isDragging, setIsDragging] = useState(false);
+    const fetchData = useCallback(async (signal) => {
+        const userClaim = getUser();
+        setLoading(true)
+        try {
+            console.log(userClaim);
+        const result = await axios.get(GET_USER+userClaim.id, {signal,...config()});
+        console.log(result.data);
+        setLoading(false)
+        setUser(result.data)
+        setName(result.data.full_name)
+        setImageurl(result.data.image_url)
+        } catch (error) {
+        if (!signal.aborted) {
+            setLoading(false)
+            console.log(error);
+        }
+        }
+    }, []);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        const signal = controller.signal
+
+        try {
+            fetchData(signal);
+        } catch (error) {
+            console.log(error);
+        }
+        return () => controller.abort(signal.reason);
+    }, [fetchData])
 
   function handleDragOver(event) {
     event.preventDefault();
@@ -30,7 +60,6 @@ export const ProfilePage = () => {
     console.log(files);
     setFile(event.dataTransfer.files[0]);
     setPreview(URL.createObjectURL(event.dataTransfer.files[0]));
-    // Do something with the dropped files...
   }
 
   function handleDragLeave(event) {
@@ -44,51 +73,40 @@ export const ProfilePage = () => {
         setPreview(URL.createObjectURL(e.currentTarget.files[0]));
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true)
-        console.log(file);
-        var newImageUrl = "";
-            console.log(config());
-            if (image_url !== "" && image_url.includes("cloudinary")) {
-                try {
-                    let public_url = getCloudinaryId(2, image_url)
-                    const result = await axios.delete(DELETE_IMAGE, { data: { public_url }, ...config() });
-                    console.log(result.data);
-                    // Handle the response or perform additional actions
-                  } catch (error) {
-                    console.log(error);
-                    // Handle the error
-                  }
-            }
+        console.log({user, image_url, name});
+            
             if (file.name) {
                 const formData = new FormData();
                 formData.append('file', file);
                 const fileConfig = config();
                 fileConfig.headers['Content-Type'] = 'multipart/form-data'
-                await axios.post(UPLOAD_IMAGE,formData,{...fileConfig}).then(result => {
-                    console.log(result.data);
+                axios.post(UPLOAD_IMAGE,formData,{...fileConfig}).then(result => {
                     setImageurl(result.data.url)
-                    newImageUrl = result.data.url
+                    axios.patch(UPDATE_USER,{
+                        id: user.id,
+                        name,
+                        image_url: result.data.url,
+                    },{...config()}).then(result => {
+                        console.log(result.data);
+                        setLoading(false)
+                    }).catch(error => {
+                        console.log(error);
+                        setLoading(false)
+                        setError(error.response.data.error)
+                    });
                 }).catch(error =>{
                     console.log(error);
                     setError(error.message)
                     return
                 });
-                await axios.patch(UPDATE_USER,{
-                    name,
-                    image_url: newImageUrl !== ""? newImageUrl : image_url,
-                },{...config()}).then(result => {
-                    console.log(result.data.data);
-                    setLoading(false)
-                    localStorage.setItem("user",JSON.stringify(result.data.data))
-                }).catch(error => {
-                    console.log(error);
-                    setLoading(false)
-                    setError(error.response.data.error)
-                });
+                
             }else{
-                await axios.patch(UPDATE_USER,{
+                console.log(user);
+                axios.patch(UPDATE_USER,{
+                    id: user.id,
                     name
                 },{...config()}).then(result => {
                     console.log(result.data.data);
@@ -122,14 +140,14 @@ export const ProfilePage = () => {
                                 <p className=" text-3xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                         </div>
                         <div className=' w-16 rounded-full overflow-hidden'>
-                            <img src={preview? preview:user.image_url? image_url:   profile_image} alt=""/>
+                            <img src={preview? preview:image_url? image_url: profile_image} alt={name}/>
                         </div>
                         {/* input data goes here */}
                         <input id="dropzone-file" type="file" className="hidden" onChange={handleFile} />
                     </label>
                     :
                     <div className=' w-32 rounded-full overflow-hidden mx-auto'>
-                        <img src={preview? preview:user.image_url? image_url:   profile_image} alt=""/>
+                        <img src={preview? preview:image_url? image_url: profile_image} alt={name}/>
                     </div>
                 }
                 
